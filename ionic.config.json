@@ -1,0 +1,8 @@
+{
+  "name": "Tsunami",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "dd32eb40"
+}
