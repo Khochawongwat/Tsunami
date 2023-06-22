@@ -1,0 +1,10 @@
+.servers-list{
+    width: 100%;
+    background-color: rgba(0, 136, 255, 0.338);
+}
+.servers-header{
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}

@@ -1,0 +1,13 @@
+.pointer{
+    cursor: pointer;
+}
+
+.unselectable{
+    user-select: none;
+}
+
+.icon-container{
+    position: "relative";
+    width: "10px";
+    height: "10px";
+}

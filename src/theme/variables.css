@@ -77,11 +77,6 @@ http://ionicframework.com/docs/theming/ */
 }
 
 @media (prefers-color-scheme: dark) {
-  /*
-   * Dark Colors
-   * -------------------------------------------
-   */
-
   body {
     --ion-color-primary: #afccff;
     --ion-color-primary-rgb: 175, 204, 255;

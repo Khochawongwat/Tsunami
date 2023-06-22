@@ -1,0 +1,59 @@
+.profile-container {
+  width: 100vw;
+  user-select: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+
+.profile-stats {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+}
+
+.stats-box {
+  padding: 0rem 0.5rem 0rem 0.5rem;
+}
+
+.profile-stats .stats-box:not(:last-child) {
+  border-right: 1px solid #ffffff;
+}
+
+.background-picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 6rem);
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/sudoku-adf4a.appspot.com/o/353141071_568173985468342_1798008521609636893_n.jpg?alt=media&token=7ed66591-6440-4f31-bb78-61a40ab97ef6");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+.profile-content {
+  background-color: blueviolet;
+  padding: 1rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-about {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-since {
+  margin-right: auto;
+}

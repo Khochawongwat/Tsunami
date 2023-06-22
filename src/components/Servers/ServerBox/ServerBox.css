@@ -1,0 +1,37 @@
+.server-box{
+  padding: 1rem 1rem 1rem 1rem;
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.server-details{
+  display: flex;
+  gap: 4px;
+  flex-direction: row;
+}
+
+.server-content{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.server-name{
+  font-size: larger;
+  color: white;  
+}
+
+.server-join{
+  padding: 0.75rem 2rem 0.75rem 2rem;
+  border-radius: 8px;
+}
+
+.server-start{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
