@@ -13,6 +13,7 @@ const auth = getAuth(FireApp)
 
 const HomeTab: React.FC = () => {
   const [servers, setServers] = useState<DocumentData[]>()
+  const [serverIDs, setServerIDs] = useState<string[]>()
   const [serversFetched, setServersFetched] = useState<boolean>(false)
   const [isSignInPopupVisible, setSignInPopupVisible] = useState<boolean>(false)
   const [isCreatePopupVisible, setCreatePopupVisible] = useState<boolean>(false)
@@ -33,13 +34,16 @@ const HomeTab: React.FC = () => {
     
     async function fetchData(){
       const temp: SetStateAction<DocumentData[]> = []
+      const temp_id: SetStateAction<string[]> = []
       setTimeout(async()=>{
         const querySnapshot = await getDocs(collection(database, "Rooms"))
         if(querySnapshot){
           querySnapshot.forEach((doc)=>{
             temp.push(doc.data())
+            temp_id.push(doc.id)
           })
           setServers(temp)
+          setServerIDs(temp_id)
           setServersFetched(true)
           console.log("[PASSED] Fetched Servers")
         }
@@ -75,7 +79,7 @@ const HomeTab: React.FC = () => {
             </button>
         </div>
         <div className='home-container'>
-            <ServersContainer servers = {servers ? servers : []}/>
+            <ServersContainer servers = {servers ? servers : []} serverIDs = {serverIDs ? serverIDs : []}/>
         </div>
       </IonContent>
     </IonPage>

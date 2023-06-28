@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { getAuth, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import FireApp from "../../firebase/config";
 import "./CreateServerPopup.css";
+import { addDoc, collection, getFirestore, doc } from 'firebase/firestore';
+import { getAuth } from "firebase/auth";
+import SudokuGenerator from "../Sudoku/Sudoku";
+import GenerateBoard from "../Sudoku/BoardGeneration";
+import { useHistory } from "react-router-dom";
 
 interface PopupProps {
   active: boolean;
@@ -15,13 +19,14 @@ enum GameMode {
 }
 
 const CreatePopup: React.FC<PopupProps> = ({ active, onSubmit }) => {
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [maxPlayers, setMaxPlayers] = useState(2);
   const [isPrivate, setPrivate] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [gameMode, setGameMode] = useState<GameMode | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     if (active) {
@@ -30,7 +35,7 @@ const CreatePopup: React.FC<PopupProps> = ({ active, onSubmit }) => {
   }, [active]);
 
   const resetForm = () => {
-    setEmail("");
+    setName("");
     setMaxPlayers(2);
     setPrivate(false);
     setPassword("");
@@ -39,8 +44,8 @@ const CreatePopup: React.FC<PopupProps> = ({ active, onSubmit }) => {
     setSubmitted(false);
   };
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
     setError("");
   };
 
@@ -73,13 +78,45 @@ const CreatePopup: React.FC<PopupProps> = ({ active, onSubmit }) => {
     setError("");
   };
 
+  const navigateToServer = (serverId: string) => {
+    history.push(`/room/${serverId}`);
+  };
+
+  const createServer = async () => {
+    const db=  getFirestore(FireApp)
+    const user = getAuth(FireApp).currentUser
+    const roomsRef = collection(db, "Rooms")
+    const [fbData, fbPerms] = GenerateBoard();
+    try{
+      if(user && user.uid != null){
+        const docRef = await addDoc(roomsRef, {
+          name: name,
+          players: [],
+          maxPlayers: maxPlayers,
+          mode: gameMode,
+          isPrivate: isPrivate,
+          author: user.uid,
+          board: fbData,
+          perms: fbPerms
+        })
+        console.log('Document created with ID:', docRef.id);
+        navigateToServer(docRef.id)
+      }else{
+        console.error('Error creating document: No user found');
+      }
+    }catch(error){
+      console.error('Error creating document:', error);
+    }
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       setSubmitted(true);
       onSubmit(true);
+      createServer()
     } catch (error) {
-      setError("Invalid username or password");
+      setError("An error has occurred.");
     }
   };
 
@@ -96,8 +133,8 @@ const CreatePopup: React.FC<PopupProps> = ({ active, onSubmit }) => {
             <input
               type="text"
               placeholder="Server Name"
-              value={email}
-              onChange={handleEmailChange}
+              value={name}
+              onChange={handleNameChange}
               required
             />
           </label>

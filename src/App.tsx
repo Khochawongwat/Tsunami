@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -14,6 +14,9 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import HomeTab from './pages/HomeTab';
 import Tab2 from './pages/Tab2';
 import ProfileTab from './pages/ProfileTab';
+import React from 'react';
+import Room from './components/Room/Room';
+import LimboPage from './components/Limbo/Limbo';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -30,47 +33,55 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-
 /* Theme variables */
 import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/home">
-            <HomeTab />
-          </Route>
-          <Route exact path="/servers">
-            <Tab2 />
-          </Route>
-          <Route path="/profile">
-            <ProfileTab />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="home" href="/home">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="servers" href="/servers">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Play</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="profile" href="/profile">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Profile</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const location = useLocation();
+  const shouldHideTabs = location.pathname.startsWith('/room/');
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <HomeTab />
+            </Route>
+            <Route exact path="/servers">
+              <Tab2 />
+            </Route>
+            <Route path="/profile">
+              <ProfileTab />
+            </Route>
+            <Redirect exact from="/" to="/home" />
+          </IonRouterOutlet>
+          {!shouldHideTabs && (
+            <IonTabBar slot="bottom" id="ion-tab-bar">
+              <IonTabButton tab="home" href="/home">
+                <IonIcon aria-hidden="true" icon={triangle} />
+                <IonLabel>Home</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="servers" href="/servers">
+                <IonIcon aria-hidden="true" icon={ellipse} />
+                <IonLabel>Play</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="profile" href="/profile">
+                <IonIcon aria-hidden="true" icon={square} />
+                <IonLabel>Profile</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          )}
+        </IonTabs>
+        <Switch>
+          <Route path="/room/:serverCode" component={Room} />
+          <Route path="/limbo" component={LimboPage} />
+        </Switch>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

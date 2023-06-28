@@ -1,0 +1,17 @@
+.grid-container {
+    min-width: 25rem;
+    display: flex;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+    border-radius: 12px;
+    border: 1px solid white;
+  }
+
+  .row-container {
+    display: flex;
+    flex-direction: row;
+    background-color: blueviolet;
+  }

@@ -1,5 +1,5 @@
-import GridCell from "./CellClass";
-
+import GridCell from "../../Sudoku/CellClass";
+import "./Cell.css"
 function Cell(props: { cell: GridCell, id: number, selected: number, onClick: Function}) {
 
     const handleClick = () => {
